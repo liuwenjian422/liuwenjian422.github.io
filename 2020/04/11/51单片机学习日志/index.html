@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>51单片机学习日志 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="51单片机定时器1:基本概念   80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的6次方&#x3D;65536，记住是从0-65535。定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器设">
+  <meta name="description" content="51单片机定时器1:基本概念   80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的16次方&#x3D;65536，记住是从0-65535。定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="51单片机学习日志">
 <meta property="og:url" content="http://yoursite.com/2020/04/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="51单片机定时器1:基本概念   80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的6次方&#x3D;65536，记住是从0-65535。定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器设">
+<meta property="og:description" content="51单片机定时器1:基本概念   80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的16次方&#x3D;65536，记住是从0-65535。定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-11T02:22:26.000Z">
-<meta property="article:modified_time" content="2020-04-12T06:26:56.941Z">
+<meta property="article:modified_time" content="2020-04-14T12:20:45.564Z">
 <meta property="article:author" content="wenjian liu">
 <meta name="twitter:card" content="summary">
   
@@ -186,7 +186,7 @@
         <h1 id="51单片机定时器"><a href="#51单片机定时器" class="headerlink" title="51单片机定时器"></a>51单片机定时器</h1><p>1:<strong>基本概念</strong></p>
 <ul>
 <li><blockquote>
-<p><strong>80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的6次方=65536，记住是从0-65535。<br>定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器设定一个初值，每有一个内部的脉冲时钟信号（相当与一段时间），计数器加一，直到溢出，一次定时完成。之后继续循环</strong> </p>
+<p><strong>80C51有两个计数器T0和T1，每个计数器都是由两个8位的RAM 单元组成的，即每个计数器都是16 位的计数器，最大的计数容量是2的16次方=65536，记住是从0-65535。<br>定时器的本质也是计数器，只不过定时器的脉冲来自内部的晶振，而计数器的脉冲来自外部，当检测的脉冲的下降沿时，计数寄存器加一，直到溢出，然后单片机产生一个中断。所以需要定时时，先给计数寄存器设定一个初值，每有一个内部的脉冲时钟信号（相当与一段时间），计数器加一，直到溢出，一次定时完成。之后继续循环</strong> </p>
 </blockquote>
 </li>
 </ul>
@@ -270,7 +270,7 @@ sbit led =P1^<span class="number">0</span>;
 
 <span class="function"><span class="keyword">void</span> <span class="title">TimerInit</span><span class="params">()</span><span class="comment">//定时1ms</span></span>
 <span class="function"></span>{
-    TMOD|=<span class="number">0X01</span>;<span class="comment">//选择T1工作方式</span>
+    TMOD|=<span class="number">0X01</span>;<span class="comment">//选择T0工作方式</span>
     TH0=(<span class="number">65536</span><span class="number">-1000</span>)/<span class="number">256</span>;<span class="comment">//给TH0、TL0赋初值</span>
     TL0=(<span class="number">65536</span><span class="number">-1000</span>)%<span class="number">256</span>;
     ET0 =<span class="number">1</span>;
