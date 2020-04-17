@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>51单片机学习日志（二） | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="80C51单片机-LED定时1s闪烁 前言：上篇博文中我们用到的是定时器T0的工作方式一，本篇博文将用到T0的工作模式二来实现功能。  一、实验须知： （1）51单片机定时器T0&#x2F;T1工作方式2为：自动再装入的8位计数器。   （2）在方式2中，TLx作为8位计数器，THx负责存储计数初值。当计数溢出时，自动将THx中存储的时间常数送入   TLx，使TLx从这一初值开始重新计数。再装入后，THx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="51单片机学习日志（二）">
+<meta property="og:url" content="http://yoursite.com/2020/04/17/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="80C51单片机-LED定时1s闪烁 前言：上篇博文中我们用到的是定时器T0的工作方式一，本篇博文将用到T0的工作模式二来实现功能。  一、实验须知： （1）51单片机定时器T0&#x2F;T1工作方式2为：自动再装入的8位计数器。   （2）在方式2中，TLx作为8位计数器，THx负责存储计数初值。当计数溢出时，自动将THx中存储的时间常数送入   TLx，使TLx从这一初值开始重新计数。再装入后，THx">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://q8xe5o8a1.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20200417173557.png">
+<meta property="article:published_time" content="2020-04-17T05:29:26.000Z">
+<meta property="article:modified_time" content="2020-04-17T09:39:16.353Z">
 <meta property="article:author" content="wenjian liu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://q8xe5o8a1.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20200417173557.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -159,102 +165,192 @@
           </div>
           <div id="js-content" class="content-ll">
             
+<article id="post-51单片机学习日志（二）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      51单片机学习日志（二）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/17/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
+        
+        
+        <a href="/2020/04/17/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%BA%8C%EF%BC%89/" class="archive-article-date">
   	<time datetime="2020-04-17T05:29:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-17</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/17/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%BA%8C%EF%BC%89/">51单片机学习日志（二）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="80C51单片机-LED定时1s闪烁"><a href="#80C51单片机-LED定时1s闪烁" class="headerlink" title="80C51单片机-LED定时1s闪烁"></a>80C51单片机-LED定时1s闪烁</h1><blockquote>
+<p>前言：上篇博文中我们用到的是定时器T0的工作方式一，本篇博文将用到T0的工作模式二来实现功能。</p>
+</blockquote>
+<h2 id="一、实验须知："><a href="#一、实验须知：" class="headerlink" title="一、实验须知："></a>一、实验须知：</h2><ul>
+<li>（1）51单片机定时器T0/T1工作方式2为：自动再装入的8位计数器。</li>
+</ul>
+<ul>
+<li><p>（2）在方式2中，TLx作为8位计数器，THx负责存储计数初值。当计数溢出时，自动将THx中存储的时间常数送入   TLx，使TLx从这一初值开始重新计数。再装入后，THx的值不变。</p>
+</li>
+<li><p>(3）T0/T1工作模式二和与方式0和1工作原理大致相同，但工作模式二为8位自动重装计时器，它与工作方式0/1的最大区别是使用时不用二次给它赋初值。</p>
+</li>
+<li><p>(4)TLx与THx的初值的计算与方式0/1大致相同，12T机器周期，则12MHz的晶振输入，得到1 MHz的机器周期,进而得到8计数器每滴答一下就是1us时间。8位的定时器可以计数256个数，即256us = 0.256ms.如果我们要定时x时间，则x/1us 得到要计数多少个，我们几位N。则256-N就为我们的初值。在这个初值的基础上,计数N个后产生溢出，即向CPU发起中断。<br><br><br></p>
+<h2 id="二、编写程序："><a href="#二、编写程序：" class="headerlink" title="二、编写程序："></a>二、编写程序：</h2></li>
+<li><p><strong>（1）程序需实现的功能：实现小灯1s亮、1s灭、依次循环往复。</strong></p>
+</li>
+</ul>
+<ul>
+<li><strong>(2)实验原理图：</strong><br><img src="http://q8xe5o8a1.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20200417173557.png" alt=""><h3 id="（3）代码："><a href="#（3）代码：" class="headerlink" title="（3）代码："></a>（3）代码：</h3></li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;reg51.h&gt;  /*51单片机头文件，加上该语句后，可直接使用单片机的特殊功能寄存器*/</span></span></span><br><span class="line">sbit led =P1^<span class="number">0</span>;<span class="comment">//将LED接在P1.0引脚</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TimerInit</span><span class="params">()</span><span class="comment">//配置定时器，定时0.25ms</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    TMOD|=<span class="number">0X02</span>;<span class="comment">//选择定时器T0工作模式2</span></span><br><span class="line">    TH0=<span class="number">0x6</span>;<span class="comment">//给TH0、TL0赋初值</span></span><br><span class="line">    TL0=<span class="number">0x6</span>;</span><br><span class="line">    ET0 =<span class="number">1</span>;<span class="comment">//打开定时器允许终端开关</span></span><br><span class="line">    EA =<span class="number">1</span>;<span class="comment">//打开总中断</span></span><br><span class="line">    TR0=<span class="number">1</span>;<span class="comment">//打开定时器</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span><span class="comment">//主函数</span></span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    TimerInit(); <span class="comment">//调用定时器</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Tmier</span><span class="params">()</span> interrupt 1 <span class="comment">//启动中断方式1</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> i;<span class="comment">//定义一个静态局部变量</span></span><br><span class="line">    i++;</span><br><span class="line">    <span class="keyword">if</span>(i==<span class="number">4000</span>)<span class="comment">//循环4000达到定时1s的效果</span></span><br><span class="line">    &#123;</span><br><span class="line">        led =~led;<span class="comment">//led灯的状态取反</span></span><br><span class="line">        i =<span class="number">0</span>;<span class="comment">//重新给i赋值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/zhifubao.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://liuwenjian422.github.io/2020/04/17/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%BA%8C%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89/" class="archive-article-date">
-  	<time datetime="2020-04-11T02:22:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-11</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">51单片机学习日志</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/11/51%E5%8D%95%E7%89%87%E6%9C%BA%E5%AD%A6%E4%B9%A0%E6%97%A5%E5%BF%97%EF%BC%88%E4%B8%80%EF%BC%89/">51单片机学习日志</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#80C51单片机-LED定时1s闪烁"><span class="toc-number">1.</span> <span class="toc-text">80C51单片机-LED定时1s闪烁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、实验须知："><span class="toc-number">1.1.</span> <span class="toc-text">一、实验须知：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、编写程序："><span class="toc-number">1.2.</span> <span class="toc-text">二、编写程序：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#（3）代码："><span class="toc-number">1.2.1.</span> <span class="toc-text">（3）代码：</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/24/%E8%AF%97%E6%96%87%E5%88%86%E4%BA%AB/" class="archive-article-date">
-  	<time datetime="2020-03-24T07:42:35.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-24</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/24/%E8%AF%97%E6%96%87%E5%88%86%E4%BA%AB/">诗文分享</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -281,8 +377,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
